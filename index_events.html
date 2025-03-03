@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouseover and Mouse out events in JS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style>
+        #hello-world-title {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="hello-world-title" class="text-2xl font-bold text-blue-500">Hello World</h1>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-4 rounded">Click</button>
+    <script>
+        document.querySelector("#hello-world-title").addEventListener("mouseover", () => {
+            document.querySelector("#hello-world-title").innerText = "Good Morning";
+            document.querySelector("#hello-world-title").classList.remove("text-blue-500");
+            document.querySelector("#hello-world-title").classList.add("text-red-500");
+        });
+        document.querySelector("#hello-world-title").addEventListener("mouseout", () => {
+            document.querySelector("#hello-world-title").innerText = "Hello World";
+            document.querySelector("#hello-world-title").classList.add("text-blue-500");
+            document.querySelector("#hello-world-title").classList.remove("text-red-500");
+
+        });
+
+        document.querySelector("button").addEventListener("mouseover", () => {
+            document.querySelector("button").classList.add('scale-150', 'ease-in-out', 'duration-200');
+        });
+        document.querySelector("button").addEventListener("mouseout", () => {
+            document.querySelector("button").classList.remove('scale-150', 'ease-in-out', 'duration-500');
+        });
+    </script>
+</body>
+
+</html>

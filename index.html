@@ -4,35 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes Application</title>
+    <title>Fetch</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-
 </head>
 
-<body class="h-screen">
-    <div class="container">
-        <div class="flex flex-col justify-center items-center h-screen">
-            <h1 class="text-4xl font-bold mb-4">Notes Application</h1>
-            <div class="flex justify-center items-center">
-                <div class="flex gap-2 flex-row justify-content-center items-center">
-                    <input type="text" id="note-title" placeholder="Note Title"
-                        class="w-full border border-gray-400 p-2 rounded-md">
-                    <button id="save-note"
-                        class="bg-indigo-500 hover:bg-blue-700 text-white py-1 px-4 rounded">Add</button>
-                </div>
-
-            </div>
-            <span id="error" class="text-red-500 bg-red-200 p-2 w-100 m-2" style="display: none;">Testing</span>
-            <div class="flex flex-col gap-2 justify-center items-center mt-5" id="notes">
-
-            </div>
-        </div>
+<body class="p-4">
+    <h1 class="text-2xl font-bold">Blogs</h1>
+    <div class="p-2" id="posts">
 
     </div>
-    <script src="index.js"></script>
+    <script src="posts.js"></script>
 </body>
 
 </html>
