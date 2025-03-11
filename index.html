@@ -4,72 +4,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fetch</title>
+    <title>Create your own application! Using HTML/CSS and JavaScript</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <style>
-        #add-post-form {
+        #loader {
+            display: none;
+        }
+
+        #result {
             display: none;
         }
     </style>
 </head>
 
-<body class="p-4">
-    <!-- Header -->
-    <div class="flex flex-row justify-between items-center">
-        <h1 class="text-2xl font-bold">Blogs</h1>
-        <div class="flex" id="success-message"></div>
-        <button id="add-post" type="button" class="px-4 py-2 bg-green-500 text-white rounded cursor-pointer"><i
-                class="fa-solid fa-plus"></i> Add new post</button>
-    </div>
-    <!-- Add Post Form -->
-    <div class="card bg-base-100 shadow-xl p-4 my-5" id="add-post-form">
-        <form action="">
-            <div class="card-body">
-                <h2 class="card-title text-2xl mb-2" id="form-title">Add New Post</h2>
-                <div class="flex" id="messages">
-
-                </div>
-                <div class="sm:col-span-4 mb-2">
-                    <label for="title" class="block text-lg font-medium text-gray-900">Post Title</label>
-                    <div class="mt-2">
-                        <div
-                            class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                            <input type="text" name="title" id="title"
-                                class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
-                                placeholder="Post 1">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-full">
-                    <label for="body" class="block text-sm/6 font-medium text-gray-900">Body</label>
-                    <div class="mt-2">
-                        <textarea name="body" id="body" rows="3"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                            placeholder="Enter your post body here"></textarea>
-                    </div>
-                </div>
-                <input type="hidden" name="id" id="post-id">
-                <div class="mt-2 flex items-center justify-start gap-x-6">
-                    <button type="button"
-                        class="text-sm/6 font-semibold text-gray-900 bg-gray-100 px-3 py-2 rounded-md hover:bg-gray-200 cursor-pointer"
-                        id="cancel-add-post">Cancel</button>
-                    <button type="button" id="save-post"
-                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
-                </div>
-
+<body class="">
+    <div class="h-auto my-3 flex flex-row justify-center items-center">
+        <div class="container text-center">
+            <h1 class="text-2xl font-bold mb-4">Create your applicaiton</h1>
+            <div class="flex flex-row gap-2">
+                <input type="text" class="w-full border border-gray-400 p-2 rounded-md" id="your-prompt"
+                    placeholder="Enter application idea in one line.." name="your-prompt">
+                <button class="bg-indigo-500 hover:bg-blue-700 text-white py-1 px-4 rounded flex items-center gap-2"
+                    id="search"><i class="fa-solid fa-magnifying-glass" id="search-icon"></i> <i
+                        class="fa-solid fa-spinner animate-spin" id="loader"></i>
+                    Search</button>
             </div>
-        </form>
+
+        </div>
     </div>
-    <!-- Post List -->
-    <div class="grid grid-cols-3 gap-5" id="posts">
+    <div class="mt-5 border shadow-md rounded p-5" id="result">
 
     </div>
-    <!-- Post Details -->
-    <div id="post-details"></div>
-    <script src="posts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        const search = document.getElementById('search');
+        const yourPrompt = document.getElementById('your-prompt');
+        let loader = false;
+
+        search.addEventListener('click', () => {
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('search-icon').style.display = 'none';
+
+            const prompt = yourPrompt.value;
+            if (prompt == "") {
+                alert("Please enter your prompt");
+                return;
+            }
+            const finalPrompt = `${yourPrompt.value}`;
+            console.log(finalPrompt);
+
+            fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyCunTT-rLPFZdWpEJCIBJsgtLaQhF98JbA", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "contents": [{
+                            "parts": [{
+                                "text": finalPrompt
+                            }]
+                        }]
+                    })
+                }).then(response => response.json())
+                .then(data => {
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('search-icon').style.display = 'block';
+                    document.getElementById('result').style.display = 'block';
+                    console.log(data);
+                    console.log(data.candidates[0].content.parts[0].text)
+                    document.getElementById('result').innerHTML = marked.parse(data.candidates[0].content
+                        .parts[0].text);
+                })
+                .catch(error => console.error(error.message));
+        });
+    </script>
 </body>
 
 </html>
